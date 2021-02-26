@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 const House = require('../models/House');
+const updateHouse = require('../functions/updateHouse');
 
 //Get all houses
 router.get('/', (req, res) => House.findAll()
@@ -63,23 +64,7 @@ router.post('/add', (req, res) => {
 router.put('/:id', (req, res) => {
     let id = parseInt(req.params.id);
 
-    House.findByPk(id)
-    .then(house => {
-        if(!house) {
-            res.status(400).json({message: `no house with the id ${id}`})    ;
-        }
-
-        House.update({...req.body}, {
-            where: {
-                number: id
-            }
-        });
-
-        res.status(200).json({message: 'house updated succesfully'});
-    })
-    .catch(err => {
-        res.status(500).send('internal server error');
-    });
+    updateHouse(id, req.body, res);
 });
 
 //Delete a house

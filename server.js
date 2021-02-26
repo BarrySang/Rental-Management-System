@@ -11,6 +11,7 @@ app.use(express.json());
 
 //House routes
 app.use('/houses', require('./routes/houses'));
+app.use('/tenants', require('./routes/tenants'));
 
 db.authenticate()
     .then(() => console.log('database connected'))
